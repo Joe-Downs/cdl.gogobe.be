@@ -1,5 +1,11 @@
-import sqlite3
 import writeDB
+
+# Creates table linking gamemodes and the event
+# they are used in
+def createEventGamemodesTable(cursor):
+    writeDB.createTable(cursor, "eventGamemodes",
+                        eventID = "INTEGER",
+                        gamemodeID = "INTEGER")
 
 # Creates table of events containing info about
 # the event (title, time, etc.)
