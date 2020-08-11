@@ -44,7 +44,7 @@ def createSeasonTable(cursor):
 # about the user (Discord ID, username, etc.)
 def createUserTable(cursor):
     writeDB.createTable(cursor, "users",
-                        DiscordID = "INTEGER",
+                        discordID = "INTEGER",
                         username = "TEXT",
                         status = "TEXT")
 
