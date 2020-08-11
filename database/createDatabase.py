@@ -1,6 +1,6 @@
 import connectDB
 import initDB
-import readDD
+import readDB
 import writeDB
 
 conn = connectDB.createConnection("cdl.db")
