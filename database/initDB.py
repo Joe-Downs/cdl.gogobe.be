@@ -16,6 +16,15 @@ def createEventTable(cursor):
                         seasonID = "INTEGER",
                         date = "TEXT")
 
+# Creates table of reminders linked to users
+# and events; stores the reminder as an
+# absolute time (not an offset from the event)
+def createReminderTable(cursor):
+    writeDB.createTable(cursor, "reminders",
+                        eventID = "INTEGER",
+                        time = "TEXT",
+                        userID = "INTEGER")
+    
 # Creates table of results for each event and user
 def createResultsTable(cursor):
     writeDB.createTable(cursor, "results",
