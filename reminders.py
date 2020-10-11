@@ -15,5 +15,5 @@ def createReminder(cursor, eventID, secTimeOffset, userID):
     reminderTime = eventDatetimeObject - reminderTimeDelta
     writeDB.insertRow(cursor, "reminders",
                       eventID = eventID,
-                      time = time,
+                      time = reminderTime,
                       userID = userID)
