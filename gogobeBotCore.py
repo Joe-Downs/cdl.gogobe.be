@@ -41,6 +41,16 @@ async def event(ctx, *args):
         events.createEvent(cursor, title, number, 1, date)
         message = f"Added event \"{title} {number}\" scheduled for {date}."
     await ctx.send(message)
+
+@bot.command()
+async def reminder(ctx, *args):
+    if args[0] == "add":
+        eventID = args[1]
+        secTimeOffset = int(args[2])
+        userID = ctx.message.author.id
+        reminders.createReminder(cursor, eventID, secTimeOffset, userID)
+        message = f"Created a reminder for you! I will remind you {secTimeOffset} seconds before the event"
+    await ctx.send(message)
         
 
 @bot.command()
