@@ -3,6 +3,8 @@ import sys
 import database.connectDB as connectDB
 import database.readDB as readDB
 import database.writeDB as writeDB
+import events
+import reminders
 import config
 import re
 
@@ -29,6 +31,17 @@ async def hi(ctx):
 async def hug(ctx):
     berryhug = await ctx.guild.fetch_emoji(737506993937318002)
     await ctx.send(berryhug)
+
+@bot.command()
+async def event(ctx, *args):
+    if args[0] == "add":
+        title = args[1]
+        number = args[2]
+        date = args[3]
+        events.createEvent(cursor, title, number, 1, date)
+        message = f"Added event \"{title} {number}\" scheduled for {date}."
+    await ctx.send(message)
+        
 
 @bot.command()
 async def signup(ctx, arg = None):
