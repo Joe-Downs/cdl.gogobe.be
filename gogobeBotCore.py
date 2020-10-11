@@ -103,5 +103,8 @@ async def sudo(ctx, arg):
         await ctx.send("Sleep mode activated...")
         print("Stopping Bot...")
         sys.exit()
+    if (arg == "commit"):
+        connectDB.commitChanges(conn)
+        await ctx.send("Committing changes...")
 
 bot.run(bot_token)
