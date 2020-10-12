@@ -7,8 +7,8 @@ import events
 import reminders
 import config
 import re
-
 from discord.ext import commands
+
 
 bot_token = config.getDiscordToken()
 owner_ID = 174362561385332736
@@ -18,6 +18,22 @@ bot = commands.Bot(command_prefix = prefix)
 
 conn = connectDB.createConnection("database/cdl.db")
 cursor = connectDB.createCursor(conn)
+
+# Converts a value in days, hours, or minutes to seconds
+def getSeconds(value, unit):
+    if unit == "day" or unit == "days":
+        value *= 86400
+    elif unit == "hour" or unit == "hours":
+        value *= 3600
+    elif unit == "minute" or unit == "minutes":
+        value *= 60
+    elif unit == "second" or unit == "seconds":
+        # It's already in seconds, no conversion needed
+        value *= 1
+    else:
+        # It's not in days, hours, minutes, or seconds - something went wrong
+        value = -1
+    return value
 
 @bot.command()
 async def ping(ctx):
@@ -46,10 +62,12 @@ async def event(ctx, *args):
 async def reminder(ctx, *args):
     if args[0] == "add":
         eventID = args[1]
-        secTimeOffset = int(args[2])
+        timeOffsetValue = int(args[2])
+        units = args[3]
+        secTimeOffset = getSeconds(timeOffsetValue, units)
         userID = ctx.message.author.id
         reminders.createReminder(cursor, eventID, secTimeOffset, userID)
-        message = f"Created a reminder for you! I will remind you {secTimeOffset} seconds before the event"
+        message = f"Created a reminder for you! I will remind you {timeOffsetValue} {units} before the event"
     await ctx.send(message)
         
 
