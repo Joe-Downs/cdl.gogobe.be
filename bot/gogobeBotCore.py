@@ -1,5 +1,12 @@
 import discord
 import sys
+import pathlib
+# Get the CDL git repo and add it to Python's working
+# module path. This will only apply to Python while the
+# program is running.
+currentDir = pathlib.Path().absolute()
+sys.path.append(str(currentDir))
+
 import database.connectDB as connectDB
 import database.readDB as readDB
 import database.writeDB as writeDB
