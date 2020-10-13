@@ -4,9 +4,11 @@ import pathlib
 # Get the CDL git repo and add it to Python's working
 # module path. This will only apply to Python while the
 # program is running.
-currentDir = pathlib.Path().absolute()
-sys.path.append(str(currentDir))
-
+# This is the directory the file is in
+fileDir = pathlib.Path(__file__).parent.absolute()
+# This is the directory above
+parentDir = fileDir.parent
+sys.path.append(str(parentDir))
 import database.connectDB as connectDB
 import database.readDB as readDB
 import database.writeDB as writeDB
