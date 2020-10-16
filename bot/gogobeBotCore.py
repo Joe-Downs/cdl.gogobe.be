@@ -9,6 +9,7 @@ fileDir = pathlib.Path(__file__).parent.absolute()
 # This is the directory above
 parentDir = fileDir.parent
 sys.path.append(str(parentDir))
+import botCommands
 import database.connectDB as connectDB
 import database.readDB as readDB
 import database.writeDB as writeDB
@@ -44,11 +45,7 @@ async def hug(ctx):
 @bot.command()
 async def event(ctx, *args):
     if args[0] == "add":
-        title = args[1]
-        number = args[2]
-        date = args[3]
-        events.createEvent(cursor, title, number, 1, date)
-        message = f"Added event \"{title} {number}\" scheduled for {date}."
+        message = botCommands.eventAdd(cursor, args)
     await ctx.send(message)
 
 @bot.command()
