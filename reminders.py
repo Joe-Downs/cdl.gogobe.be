@@ -16,7 +16,7 @@ def getSeconds(value, unit):
         value *= 1
     else:
         # It's not in days, hours, minutes, or seconds - something went wrong
-        value = -1
+        raise ValueError("Units are not in days, hours, minutes, or seconds")
     return value
 
 # Create a reminder given a cursor, event, time offset (in seconds), and the user
