@@ -55,8 +55,11 @@ async def reminder(ctx, *args):
         timeOffset= int(args[2])
         units = args[3]
         userID = ctx.message.author.id
-        reminders.createReminder(cursor, eventID, timeOffset, units, userID)
-        message = f"Created a reminder for you! I will remind you {timeOffset} {units} before the event"
+        try:
+            reminders.createReminder(cursor, eventID, timeOffset, units, userID)
+            message = f"Created a reminder for you! I will remind you {timeOffset} {units} before the event"
+        except ValueError:
+            message = "Your units are not in days, hours, minutes, or seconds"
     await ctx.send(message)
         
 
