@@ -5,7 +5,11 @@ import datetime
 
 # Converts a value in days, hours, or minutes to seconds
 def getSeconds(value, unit):
-    if unit == "day" or unit == "days":
+    if value < 0:
+        # Don't accept negative values, to simplify things. Plus, no one
+        # should be wanting a reminder *after* the event has passed.
+        raise ValueError("Values cannot be negative")
+    elif unit == "day" or unit == "days":
         value *= 86400
     elif unit == "hour" or unit == "hours":
         value *= 3600
