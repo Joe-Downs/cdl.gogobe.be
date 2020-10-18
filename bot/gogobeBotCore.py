@@ -15,6 +15,7 @@ import database.readDB as readDB
 import database.writeDB as writeDB
 import events
 import reminders
+import sqlite3
 import config
 import re
 from discord.ext import commands
@@ -86,15 +87,16 @@ async def status(ctx, arg = None):
         discordID = int((re.findall("[0-9]+", arg))[0])
         user = bot.get_user(discordID)
         name = user.name
-    status = readDB.getValue(cursor, "users",
-                                   desiredColumn = "status",
-                                   searchColumn = "discordID",
-                                   searchValue = discordID)
-    if (status != None):
-        messageString = name + " was " + status + " at signup"
-    else:
-        messageString = name + " has not signed up yet"
-    await ctx.send(messageString)
+    try:
+        status = readDB.getValue(cursor, "users",
+                                 desiredColumn = "status",
+                                 searchColumn = "discordID",
+                                 searchValue = discordID,
+                                 getMultiple = True)
+        message = f"{name} was {status} at signup"
+    except sqlite3.ProgrammingError as error:
+        message = f"{name} has not signed up yet"
+    await ctx.send(message)
 
 # 'sudo' commands can only be run by the bot owner
 @bot.command()
