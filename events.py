@@ -11,9 +11,8 @@ def createEvent(cursor, title, number, seasonID, date):
                       seasonID = seasonID,
                       date = date)
 
-# Get the appropiate season given a event number
+# Get the appropiate season given an event number
 # 1-10 is Season 1, 11-20 is Season 2, and so on...
 def getSeason(eventNumber):
     season = int(math.floor(eventNumber / 10))
     return season
-    
