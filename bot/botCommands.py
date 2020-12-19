@@ -16,5 +16,38 @@ def eventAdd(cursor, args):
         season = 0
     events.createEvent(cursor, title, eventNumber, season, date)
     return f"Added event \"{title} {eventNumber}\" scheduled for {date}"
-    
-    
+
+def eventsList(cursor, args):
+    # Event titles are always all uppercase
+    eventTitle = args[1].upper()
+    # The default is 5 if no number is given
+    try:
+        numOfEvents = int(args[2])
+    except:
+        numOfEvents = 5
+    # Formatting the bot's response
+    # Begin the message wtih three backticks for a code block
+    message = "```\n"
+    # Add column headers for the table
+    message += "  ID  :  Event     :  Date \n"
+    message += "------+------------+---------------------\n"
+    # Get the list of Event objects of the necessary events and add the info
+    # to the bot's response
+    eventList = events.getEvents(cursor, eventTitle, numOfEvents)
+    # Lists of the SQL IDs and event numbers so that the respective maxes can
+    # be computed and used in formatting
+    sqlIDs = []
+    eventNumbers = []
+    for Event in eventList:
+        sqlIDs.append(Event.sqlID)
+        eventNumbers.append(Event.eventNumber)
+    maxSQLNum = max(sqlIDs)
+    maxEventNum = max(eventNumbers)
+    # Format the bot's response with data about the events
+    for Event in eventList:
+        message += f"{events.formatNumber(maxSQLNum, Event.sqlID)}  :  "
+        message += f"{Event.eventName} {events.formatNumber(maxEventNum, Event.eventNumber)}  :  "
+        message += f"{Event.date}\n"
+    # Finish off the message with closing backticks
+    message += "```"
+    return message
