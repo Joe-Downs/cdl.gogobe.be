@@ -47,6 +47,8 @@ async def hug(ctx):
 async def event(ctx, *args):
     if args[0] == "add":
         message = botCommands.eventAdd(cursor, args)
+    elif args[0] == "list":
+        message = botCommands.eventsList(cursor, args)
     await ctx.send(message)
 
 @bot.command()
