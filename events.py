@@ -3,6 +3,18 @@ import database.readDB as readDB
 import database.writeDB as writeDB
 import math
 
+# Event class for storing data about each event. Class instances can be used
+# to return bundled info about events.
+class Event:
+    def __init__(self, sqlID, eventNumber, eventName, date):
+        self.sqlID = sqlID
+        self.eventNumber = eventNumber
+        self.eventName = eventName
+        self.date = date
+    # Converts the info about the event into a nicely formatted string for output
+    def __str__(self):
+        return f"{self.eventName} {self.eventNumber}\nDate: {self.date}\nSQL ID: {self.sqlID}"
+
 # Create event given title and number (e.g., CDL 203), season, and date
 def createEvent(cursor, title, number, seasonID, date):
     writeDB.insertRow(cursor, "events",
@@ -16,3 +28,28 @@ def createEvent(cursor, title, number, seasonID, date):
 def getSeason(eventNumber):
     season = int(math.floor(eventNumber / 10))
     return season
+
+# Return a string of the number padded with as many (or as few) to match the maxNum
+def formatNumber(maxNum, number):
+    spacesNeeded = 3 - (math.floor(math.log10(number)))
+    spaces = " " * spacesNeeded
+    return f"{spaces}{number}"
+
+# Get a list of the {numOfEvents} most recent events of a given title
+# (e.g., the 10 most recent CDL or RPG events) and return a list of Event class
+# objects containing the SQL ID, title and number, and date.
+def getEvents(cursor, eventName, numOfEvents):
+    # List of ALL the event numbers of the given title
+    eventNumbers = readDB.getValue(cursor, "events", "number", "title", eventName, getMultiple = True,
+                                   sortedResults = True, sortBy = "number", descending = True)
+    # List of the Event class objects
+    eventsList = []
+    # Get the other info pertaining to the events, create an Event class object for
+    # the event and add it to the eventsList list.
+    for i in range(0, numOfEvents):
+        sqlID = int(readDB.getValue(cursor, "events", "ROWID", "number", int(eventNumbers[i])))
+        eventNumber = int(eventNumbers[i])
+        eventDate = readDB.getValue(cursor, "events", "date", "number", eventNumber)
+        tempEvent = Event(sqlID, eventNumber, eventName, eventDate)
+        eventsList.append(tempEvent)
+    return eventsList
