@@ -39,9 +39,10 @@ async def hi(ctx):
     await ctx.send("hello")
 
 @bot.command()
-async def hug(ctx):
-    berryhug = await ctx.guild.fetch_emoji(737506993937318002)
-    await ctx.send(berryhug)
+async def hug(ctx, arg):
+    huggedID = int(re.findall("[0-9]+", arg)[0])
+    loonaHugGfy = "https://gfycat.com/FreeDarkHairstreakbutterfly"
+    await ctx.send(f"<@{huggedID}> {loonaHugGfy}")
 
 @bot.command()
 async def event(ctx, *args):
@@ -49,6 +50,11 @@ async def event(ctx, *args):
         message = botCommands.eventAdd(cursor, args)
     elif args[0] == "list":
         message = botCommands.eventsList(cursor, args)
+    elif args[0] == "signup":
+        try:
+            message = botCommands.eventSignup(cursor, args)
+        except ValueError as error:
+            message = error
     await ctx.send(message)
 
 @bot.command()
