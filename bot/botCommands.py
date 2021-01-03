@@ -45,9 +45,23 @@ def eventsList(cursor, args):
     maxEventNum = max(eventNumbers)
     # Format the bot's response with data about the events
     for Event in eventList:
-        message += f"{events.formatNumber(maxSQLNum, Event.sqlID)}  :  "
-        message += f"{Event.eventName} {events.formatNumber(maxEventNum, Event.eventNumber)}  :  "
+        message += f"{Event.sqlID:4d}  :  "
+        #message += f"{events.formatNumber(maxSQLNum, Event.sqlID)}  :  "
+        message += f"{Event.eventName} {Event.eventNumber:4d}  :  "
+        #message += f"{Event.eventName} {events.formatNumber(maxEventNum, Event.eventNumber)}  :  "
         message += f"{Event.date}\n"
     # Finish off the message with closing backticks
     message += "```"
     return message
+
+# Signs a user up for a specified event
+def eventSignup(cursor, args):
+    try:
+        eventSQLID = int(args[1])
+    except ValueError:
+        raise ValueError(f"``{args[1]}`` is not an integer.")
+    except IndexError:
+        raise ValueError(f"No event ID was given.")
+    
+    
+    
