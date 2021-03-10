@@ -1,6 +1,6 @@
 # Any and all functions related to events
-import database.readDB as readDB
-import database.writeDB as writeDB
+import database.sqlpyte3.readDB as readDB
+import database.sqlpyte3.writeDB as writeDB
 import math
 
 # Event class for storing data about each event. Class instances can be used

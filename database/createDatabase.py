@@ -1,7 +1,5 @@
-import connectDB
 import initDB
-import readDB
-import writeDB
+import sqlpyte3.connectDB as connectDB
 
 conn = connectDB.createConnection("cdl.db")
 cursor = connectDB.createCursor(conn)

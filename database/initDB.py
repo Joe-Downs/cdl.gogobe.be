@@ -1,4 +1,4 @@
-import writeDB
+import sqlpyte3.writeDB as writeDB
 
 # Creates table linking gamemodes and the event
 # they are used in

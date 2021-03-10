@@ -1,6 +1,6 @@
 # Any and all functions related to reminders
-import database.writeDB as writeDB
-import database.readDB as readDB
+import database.sqlpyte3.readDB as readDB
+import database.sqlpyte3.writeDB as writeDB
 import datetime
 
 # Converts a value in days, hours, or minutes to seconds

@@ -10,9 +10,9 @@ fileDir = pathlib.Path(__file__).parent.absolute()
 parentDir = fileDir.parent
 sys.path.append(str(parentDir))
 import botCommands
-import database.connectDB as connectDB
-import database.readDB as readDB
-import database.writeDB as writeDB
+import database.sqlpyte3.connectDB as connectDB
+import database.sqlpyte3.readDB as readDB
+import database.sqlpyte3.writeDB as writeDB
 import events
 import reminders
 import sqlite3
