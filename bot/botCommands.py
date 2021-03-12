@@ -1,6 +1,8 @@
 # Functions used by the bot for its commands
 
+import discord
 import events
+import reminders
 
 # Computes the season (if needed) and adds the event to the database
 # Returns a message to be sent by the bot
@@ -62,6 +64,17 @@ def eventSignup(cursor, args):
         raise ValueError(f"``{args[1]}`` is not an integer.")
     except IndexError:
         raise ValueError(f"No event ID was given.")
-    
-    
-    
+
+# Creates a reminder at the given time for a given user
+def reminderCreate(cursor, ctx, args):
+    eventID = args[1]
+    timeOffset= int(args[2])
+    units = args[3]
+    userID = ctx.message.author.id
+    try:
+        reminders.createReminder(cursor, eventID, timeOffset, units, userID)
+        message = f"Created a reminder for you! I will remind you {timeOffset} {units} before the event"
+    except ValueError as error:
+        message = error
+    return message
+            
