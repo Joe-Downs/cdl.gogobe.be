@@ -60,15 +60,7 @@ async def event(ctx, *args):
 @bot.command()
 async def reminder(ctx, *args):
     if args[0] == "add":
-        eventID = args[1]
-        timeOffset= int(args[2])
-        units = args[3]
-        userID = ctx.message.author.id
-        try:
-            reminders.createReminder(cursor, eventID, timeOffset, units, userID)
-            message = f"Created a reminder for you! I will remind you {timeOffset} {units} before the event"
-        except ValueError as error:
-            message = error
+        message = botCommands.reminderCreate(cursor, ctx, args)
     await ctx.send(message)
         
 
