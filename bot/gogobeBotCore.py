@@ -61,6 +61,8 @@ async def event(ctx, *args):
 async def reminder(ctx, *args):
     if args[0] == "add":
         message = botCommands.reminderCreate(cursor, ctx, args)
+    if (args[0] == "view" or  args[0] == "list"):
+        message = botCommands.remindersList(cursor, ctx, args)
     await ctx.send(message)
         
 
