@@ -36,15 +36,6 @@ def eventsList(cursor, args):
     # Get the list of Event objects of the necessary events and add the info
     # to the bot's response
     eventList = events.getEvents(cursor, eventTitle, numOfEvents)
-    # Lists of the SQL IDs and event numbers so that the respective maxes can
-    # be computed and used in formatting
-    sqlIDs = []
-    eventNumbers = []
-    for Event in eventList:
-        sqlIDs.append(Event.sqlID)
-        eventNumbers.append(Event.eventNumber)
-    maxSQLNum = max(sqlIDs)
-    maxEventNum = max(eventNumbers)
     # Format the bot's response with data about the events
     for Event in eventList:
         message += f"{Event.sqlID:4d}  :  "
