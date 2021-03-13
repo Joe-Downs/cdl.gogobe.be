@@ -48,9 +48,7 @@ def eventsList(cursor, args):
     # Format the bot's response with data about the events
     for Event in eventList:
         message += f"{Event.sqlID:4d}  :  "
-        #message += f"{events.formatNumber(maxSQLNum, Event.sqlID)}  :  "
         message += f"{Event.eventName} {Event.eventNumber:4d}  :  "
-        #message += f"{Event.eventName} {events.formatNumber(maxEventNum, Event.eventNumber)}  :  "
         message += f"{Event.date}\n"
     # Finish off the message with closing backticks
     message += "```"
