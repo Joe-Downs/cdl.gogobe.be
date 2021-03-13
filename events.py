@@ -29,12 +29,6 @@ def getSeason(eventNumber):
     season = int(math.floor(eventNumber / 10))
     return season
 
-# Return a string of the number padded with as many (or as few) to match the maxNum
-def formatNumber(maxNum, number):
-    spacesNeeded = 3 - (math.floor(math.log10(number)))
-    spaces = " " * spacesNeeded
-    return f"{spaces}{number}"
-
 # Get a list of the {numOfEvents} most recent events of a given title
 # (e.g., the 10 most recent CDL or RPG events) and return a list of Event class
 # objects containing the SQL ID, title and number, and date.
