@@ -67,3 +67,22 @@ def reminderCreate(cursor, ctx, args):
         message = error
     return message
             
+# Returns a nicely formatted table of all the reminders a user has created
+def remindersList(cursor, ctx, args):
+    userID = ctx.message.author.id
+    # Formatting the bot's response
+    # Begin the message with three backticks for a code block
+    message = "```\n"
+    # Add column headers for the table
+    message += "  ID  :  Event     :  Reminder Date \n"
+    message += "------+------------+---------------------\n"
+    # Get a list of Reminder objects
+    reminderList = reminders.getReminders(cursor, userID)
+    # Format the bot's response with data about the events
+    for reminder in reminderList:
+        message += f"{reminder.sqlID:4d}  :  "
+        message += f"{reminder.eventName} {reminder.eventNumber:4d}  :  "
+        message += f"{reminder.date}\n"
+    # Finish off the message with closing backticks
+    message += "```"
+    return message
