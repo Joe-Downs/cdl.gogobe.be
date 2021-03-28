@@ -28,6 +28,11 @@ prefix = config.getCommandPrefix()
 bot = commands.Bot(command_prefix = prefix)
 
 conn = connectDB.createConnection("database/cdl.db")
+# The Row instance allows for the row returned by sqlite3 to be mapped by column
+# name and index in a dictionary-like format. Additionally, "it
+# supports...iteration, representation, equality testing and len()"
+# (from https://docs.python.org/3/library/sqlite3.html#sqlite3.Row)
+conn.row_factory = sqlite3.Row
 cursor = connectDB.createCursor(conn)
 
 @bot.command()
