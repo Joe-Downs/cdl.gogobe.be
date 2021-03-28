@@ -10,7 +10,6 @@ fileDir = pathlib.Path(__file__).parent.absolute()
 parentDir = fileDir.parent
 sys.path.append(str(parentDir))
 import botCommands
-import database.sqlpyte3.connectDB as connectDB
 import database.sqlpyte3.readDB as readDB
 import database.sqlpyte3.writeDB as writeDB
 import events
@@ -27,13 +26,13 @@ prefix = config.getCommandPrefix()
 
 bot = commands.Bot(command_prefix = prefix)
 
-conn = connectDB.createConnection("database/cdl.db")
+conn = sqlite3.connect("database/cdl.db")
 # The Row instance allows for the row returned by sqlite3 to be mapped by column
 # name and index in a dictionary-like format. Additionally, "it
 # supports...iteration, representation, equality testing and len()"
 # (from https://docs.python.org/3/library/sqlite3.html#sqlite3.Row)
 conn.row_factory = sqlite3.Row
-cursor = connectDB.createCursor(conn)
+cursor = conn.cursor()
 
 @bot.command()
 async def ping(ctx):
@@ -117,13 +116,13 @@ async def sudo(ctx, arg):
         return
 
     if (arg == "exit" or arg == "stop"):
-        connectDB.commitChanges(conn)
-        connectDB.closeConnection(conn)
+        conn.commit()
+        conn.close()
         await ctx.send("Sleep mode activated...")
         print("Stopping Bot...")
         sys.exit()
     if (arg == "commit"):
-        connectDB.commitChanges(conn)
+        conn.commit()
         await ctx.send("Committing changes...")
 
 bot.run(bot_token)
