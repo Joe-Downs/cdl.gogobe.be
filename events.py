@@ -1,15 +1,12 @@
 # Any and all functions related to events
-import database.sqlpyte3.readDB as readDB
-import database.sqlpyte3.writeDB as writeDB
 import math
 
 # Create event given title and number (e.g., CDL 203), season, and date
 def createEvent(cursor, title, number, seasonID, date):
-    writeDB.insertRow(cursor, "events",
-                      title = title,
-                      number = number,
-                      seasonID = seasonID,
-                      date = date)
+    # Column order: [sqlID, title, number, seasonID, date]
+    # NULL is inserted into the sqlID column because it auto-increments
+    sqlCommand = "INSERT INTO events VALUES (NULL, ?, ?, ?, ?)"
+    cursor.execute(sqlCommand, (title, number, seasonID, date,))
 
 # Get the appropiate season given an event number
 # 1-10 is Season 1, 11-20 is Season 2, and so on...
