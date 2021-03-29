@@ -1,6 +1,4 @@
 # Any and all functions related to reminders
-import database.sqlpyte3.readDB as readDB
-import database.sqlpyte3.writeDB as writeDB
 import datetime
 
 # Converts a value in days, hours, or minutes to seconds
@@ -30,16 +28,20 @@ def createReminder(cursor, eventID, timeOffset, unit, userID):
     secTimeOffset = getSeconds(timeOffset, unit)
     # We want an absolute time, so we first need to get the event's
     # time, then subtract the offset
-    eventDatetimeString = readDB.getValue(cursor, "events", "date", "ROWID", eventID)
+    readTimeCommand = "SELECT date FROM events WHERE sqlID = ?"
+    # Fetch the result and get the first (and only) one which will be the string
+    # representation of the date.
+    cursor.execute(readTimeCommand, (eventID,))
+    eventDatetimeString = cursor.fetchone()[0]
     # Time strings will ALWAYS be stored in the ISO 8601 format with NO offset:
     # YYYY-MM-DDTHH:MM:SS (milliseconds will not be included)
     eventDatetimeObject = datetime.datetime.fromisoformat(eventDatetimeString)
     reminderTimeDelta = datetime.timedelta(seconds = secTimeOffset)
     reminderTime = eventDatetimeObject - reminderTimeDelta
-    writeDB.insertRow(cursor, "reminders",
-                      eventID = eventID,
-                      time = reminderTime,
-                      userID = userID)
+    # Column order: [sqlID, eventID, time, userID]
+    # NULL is inserted into the sqlID column because it auto-increments
+    createCommand = "INSERT INTO reminders VALUES (NULL, ?, ?, ?)"
+    cursor.execute(createCommand, (eventID, reminderTime, userID,))
 
 # Returns a list of the reminder(s) a user has created for themselves
 def getReminders(cursor, userID):
