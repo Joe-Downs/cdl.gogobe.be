@@ -3,22 +3,6 @@ import database.sqlpyte3.readDB as readDB
 import database.sqlpyte3.writeDB as writeDB
 import datetime
 
-# Reminder class for storing data about each reminder. Class instances can be
-# used to return bundled info about reminders.
-class Reminder:
-    def __init__(self, sqlID, eventName, eventNumber, date):
-        self.sqlID = sqlID
-        self.eventName = eventName
-        self.eventNumber = eventNumber
-        self.date = date
-        
-    # Converts the info about the reminder into a nicely formatted string
-    def __str__(self):
-        toString = f"Reminder for {self.eventName} {self.eventNumber}\n"
-        toString += f"Date: {self.date}\n"
-        toString += f"SQL ID: {self.sqlID}"
-        return toString
-
 # Converts a value in days, hours, or minutes to seconds
 def getSeconds(value, unit):
     if value < 0:
@@ -59,20 +43,9 @@ def createReminder(cursor, eventID, timeOffset, unit, userID):
 
 # Returns a list of the reminder(s) a user has created for themselves
 def getReminders(cursor, userID):
-    # Get a list of the eventIDs that the user has created reminders for
-    reminderIDs = readDB.getValue(cursor, "reminders","ROWID", "userID", userID,
-                                  getMultiple = True)
-    # List of the Reminder class objects
-    reminderList = []
-    for reminderID in reminderIDs:
-        sqlID = reminderID
-        eventID = int(readDB.getValue(cursor, "reminders", "eventID",
-                                      "ROWID", sqlID))
-        eventName = readDB.getValue(cursor, "events", "title", "ROWID",
-                                    eventID)
-        eventNumber = int(readDB.getValue(cursor, "events", "number",
-                                          "ROWID", eventID))
-        date = readDB.getValue(cursor, "reminders", "time", "ROWID", sqlID)
-        tempReminder = Reminder(sqlID, eventName, eventNumber, date)
-        reminderList.append(tempReminder)
-    return reminderList
+    # SQL command to be executed with a placeholder for the userID given
+    sqlCommand = "SELECT * FROM reminders WHERE userID=?"
+    cursor.execute(sqlCommand, (userID,))
+    # Return the list of SQLite3 Row instances
+    return cursor.fetchall()
+    
