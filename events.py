@@ -25,3 +25,9 @@ def getEvents(cursor, eventName, numOfEvents):
     # Return the list of SQLite3 Row instances
     return cursor.fetchall()
 
+# Get the full name of an event (title and event) and return it as two variables
+def getFullEventName(cursor, eventID):
+    sqlCommand = "SELECT title, number FROM events WHERE sqlID = ?"
+    cursor.execute(sqlCommand, (eventID,))
+    row = cursor.fetchone()
+    return row["title"], row["number"]
