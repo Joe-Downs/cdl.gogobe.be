@@ -79,10 +79,11 @@ def remindersList(cursor, ctx, args):
     # Get a list of Reminder objects
     reminderList = reminders.getReminders(cursor, userID)
     # Format the bot's response with data about the events
-    for reminder in reminderList:
-        message += f"{reminder.sqlID:4d}  :  "
-        message += f"{reminder.eventName} {reminder.eventNumber:4d}  :  "
-        message += f"{reminder.date}\n"
+    for r in reminderList:
+        message += f"{r['sqlID']:4d}  :  "
+        eventName, eventNumber = events.getFullEventName(cursor, r['eventID'])
+        message += f"{eventName} {eventNumber:4d}  :  "
+        message += f"{r['time']}\n"
     # Finish off the message with closing backticks
     message += "```"
     return message
