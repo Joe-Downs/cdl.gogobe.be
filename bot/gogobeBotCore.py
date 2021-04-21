@@ -10,8 +10,6 @@ fileDir = pathlib.Path(__file__).parent.absolute()
 parentDir = fileDir.parent
 sys.path.append(str(parentDir))
 import botCommands
-import database.sqlpyte3.readDB as readDB
-import database.sqlpyte3.writeDB as writeDB
 import events
 import reminders
 import sqlite3
@@ -84,26 +82,6 @@ INSERT INTO users (sqlID, discordID, username, status) VALUES (NULL, ?, ?, ?)
     cursor.execute(signupCommand, (authorID, authorName, authorStatus,))
     conn.commit()
     await ctx.send("Signed " + authorName + " up for the CDL!")
-
-@bot.command()
-async def status(ctx, arg = None):
-    name = str(ctx.message.author.name)
-    if (arg == None):
-        discordID = int(ctx.message.author.id)
-    else:
-        discordID = int((re.findall("[0-9]+", arg))[0])
-        user = bot.get_user(discordID)
-        name = user.name
-    try:
-        status = readDB.getValue(cursor, "users",
-                                 desiredColumn = "status",
-                                 searchColumn = "discordID",
-                                 searchValue = discordID,
-                                 getMultiple = True)
-        message = f"{name} was {status} at signup"
-    except sqlite3.ProgrammingError as error:
-        message = f"{name} has not signed up yet"
-    await ctx.send(message)
 
 # 'sudo' commands can only be run by the bot owner
 @bot.command()
