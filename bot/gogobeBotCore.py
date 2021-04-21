@@ -78,10 +78,11 @@ async def signup(ctx, arg = None):
     else:
         authorID = int(re.findall("[0-9]+", arg))
     authorStatus = str(ctx.message.author.status)
-    writeDB.insertRow(cursor, "users",
-                      discordID = authorID,
-                      username = authorName,
-                      status = authorStatus)
+    signupCommand = """
+INSERT INTO users (sqlID, discordID, username, status) VALUES (NULL, ?, ?, ?)
+"""
+    cursor.execute(signupCommand, (authorID, authorName, authorStatus,))
+    conn.commit()
     await ctx.send("Signed " + authorName + " up for the CDL!")
 
 @bot.command()
