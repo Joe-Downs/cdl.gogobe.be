@@ -1,8 +1,11 @@
+# Python Modules
+# Third-Party Modules
+import sqlite3
+# Custom Modules
 import metaDB
-import sqlpyte3.connectDB as connectDB
 
-conn = connectDB.createConnection("cdl.db")
-cursor = connectDB.createCursor(conn)
+conn = sqlite3.connect("cdl.db")
+cursor = conn.cursor()
 
 
 metaDB.createGamemodesTable(cursor)
@@ -14,5 +17,6 @@ metaDB.createSeasonTable(cursor)
 metaDB.createUserTable(cursor)
 metaDB.createVehicleTable(cursor)
 
-connectDB.commitChanges(conn)
-connectDB.closeConnection(conn)
+# Commit the changes and close the connection
+conn.commit()
+conn.close()
