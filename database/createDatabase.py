@@ -1,18 +1,18 @@
-import initDB
+import metaDB
 import sqlpyte3.connectDB as connectDB
 
 conn = connectDB.createConnection("cdl.db")
 cursor = connectDB.createCursor(conn)
 
 
-initDB.createEventGamemodesTable(cursor)
-initDB.createEventTable(cursor)
-initDB.createReminderTable(cursor)
-initDB.createResultsTable(cursor)
-initDB.createRSVPTable(cursor)
-initDB.createSeasonTable(cursor)
-initDB.createUserTable(cursor)
-initDB.createVehicleTable(cursor)
+metaDB.createGamemodesTable(cursor)
+metaDB.createEventTable(cursor)
+metaDB.createReminderTable(cursor)
+metaDB.createResultsTable(cursor)
+metaDB.createRSVPTable(cursor)
+metaDB.createSeasonTable(cursor)
+metaDB.createUserTable(cursor)
+metaDB.createVehicleTable(cursor)
 
 connectDB.commitChanges(conn)
 connectDB.closeConnection(conn)
