@@ -14,6 +14,7 @@ metaDB.createReminderTable(cursor)
 metaDB.createResultsTable(cursor)
 metaDB.createRSVPTable(cursor)
 metaDB.createSeasonTable(cursor)
+metaDB.createStandingsTable(cursor)
 metaDB.createUserTable(cursor)
 metaDB.createVehicleTable(cursor)
 
