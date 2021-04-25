@@ -49,6 +49,22 @@ CREATE TABLE seasons ({sqlID}, number INTEGER)
 """
     curs.execute(seasonCommand)
 
+
+# Creates table to store the current overall rankings in the CDL. (Total medals,
+# score, etc.)
+def createStandingsTable(curs):
+    standingsCommand = f"""
+CREATE TABLE standings ({sqlID},
+leaguesEntered INTEGER,
+leagueGolds INTEGER, leagueSilvers INTEGER, leagueBronzes INTEGER,
+overallRank INTEGER, overallScore INTEGER,
+racesEntered INTEGER, racesWon INTEGER,
+seasonsEntered INTEGER,
+seasonGolds INTEGER, seasonSilvers INTEGER, seasonBronzes INTEGER,
+userID INTEGER)
+"""
+    curs.execute(standingsCommand)
+
 # Creates table of users containing general info about the user (Discord ID,
 # username, etc.)
 def createUserTable(curs):
