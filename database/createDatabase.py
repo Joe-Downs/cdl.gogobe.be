@@ -7,7 +7,7 @@ import metaDB
 conn = sqlite3.connect("cdl.db")
 cursor = conn.cursor()
 
-
+metaDB.createAliasesTable(cursor)
 metaDB.createGamemodesTable(cursor)
 metaDB.createEventTable(cursor)
 metaDB.createReminderTable(cursor)
