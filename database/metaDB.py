@@ -3,6 +3,14 @@
 # table. (To autoincrement it, NULL must be inserted into its column)
 sqlID = "sqlID INTEGER PRIMARY KEY AUTOINCREMENT"
 
+# Creates table linking users with various aliases they might have over the
+# course of their participation in the CDL.
+def createAliasesTable(curs):
+    aliasesCommand = f"""
+CREATE TABLE aliases ({sqlID}, userID INTEGER, alias TEXT)
+"""
+    curs.execute(aliasesCommand)
+
 # Creates table linking gamemode and the event they are used in
 def createGamemodesTable(curs):
     gamemodesCommand = f"""
