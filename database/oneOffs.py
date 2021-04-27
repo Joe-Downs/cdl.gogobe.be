@@ -28,7 +28,6 @@ def populateAliases(curs):
             discordIDCommand = "SELECT sqlID FROM users WHERE discordID = ?"
             curs.execute(discordIDCommand, (discordID,))
             userID = curs.fetchone()[0]
-            print(userID)
             alias = row["alias"]
             curs.execute(aliasCommand, (userID, alias))
         csvAliases.close()
