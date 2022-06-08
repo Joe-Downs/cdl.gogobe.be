@@ -17,7 +17,6 @@ import config
 import re
 from discord.ext import commands
 
-
 bot_token = config.getDiscordToken()
 owner_ID = 174362561385332736
 prefix = config.getCommandPrefix()
@@ -32,6 +31,10 @@ conn = sqlite3.connect("database/cdl.db")
 conn.row_factory = sqlite3.Row
 cursor = conn.cursor()
 
+# ================================ TTT Commands ================================
+# Commands for the TTT (Trouble in Terrorist Town) gamemode
+
+# ================================ Fun Commands ================================
 @bot.command()
 async def ping(ctx):
     await ctx.send("Pong")
@@ -46,6 +49,7 @@ async def hug(ctx, arg):
     loonaHugGfy = "https://gfycat.com/FreeDarkHairstreakbutterfly"
     await ctx.send(f"<@{huggedID}> {loonaHugGfy}")
 
+# ================================ Sudo Commands ===============================
 # 'sudo' commands can only be run by the bot owner
 @bot.command()
 async def sudo(ctx, arg):
@@ -66,5 +70,5 @@ async def sudo(ctx, arg):
     if (arg == "commit"):
         conn.commit()
         await ctx.send("Committing changes...")
-
+# ==============================================================================
 bot.run(bot_token)
