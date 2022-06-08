@@ -34,6 +34,26 @@ cursor = conn.cursor()
 # ================================ TTT Commands ================================
 # Commands for the TTT (Trouble in Terrorist Town) gamemode
 
+class TTTCommands(commands.cog, name = "TTT Commands"):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.group(name = "ttt", invoke_without_command = True)
+    async def ttt(self, ctx, *args):
+        # Return some info about the upcoming event(s)
+        await pass
+
+    @ttt.command(name = "signup")
+    async def signup(self, ctx, *args):
+        # Sign the user up for the next event
+        await pass
+
+    @ttt.command(name = "start")
+    async def start(self, ctx, *args):
+        # Starts the event by deciding who gets what roles and DMing the roles
+        # to the specified people.
+        await pass
+
 # ================================ Fun Commands ================================
 @bot.command()
 async def ping(ctx):
