@@ -46,43 +46,6 @@ async def hug(ctx, arg):
     loonaHugGfy = "https://gfycat.com/FreeDarkHairstreakbutterfly"
     await ctx.send(f"<@{huggedID}> {loonaHugGfy}")
 
-@bot.command()
-async def event(ctx, *args):
-    if args[0] == "add":
-        message = botCommands.eventAdd(cursor, args)
-    elif args[0] == "list":
-        message = botCommands.eventsList(cursor, args)
-    elif args[0] == "signup":
-        try:
-            message = botCommands.eventSignup(cursor, args)
-        except ValueError as error:
-            message = error
-    await ctx.send(message)
-
-@bot.command()
-async def reminder(ctx, *args):
-    if args[0] == "add":
-        message = botCommands.reminderCreate(cursor, ctx, args)
-    if (args[0] == "view" or  args[0] == "list"):
-        message = botCommands.remindersList(cursor, ctx, args)
-    await ctx.send(message)
-
-
-@bot.command()
-async def signup(ctx, arg = None):
-    authorName = str(ctx.message.author.name)
-    if (arg == None):
-        authorID = int(ctx.message.author.id)
-    else:
-        authorID = int(re.findall("[0-9]+", arg))
-    authorStatus = str(ctx.message.author.status)
-    signupCommand = """
-INSERT INTO users (sqlID, discordID, username, status) VALUES (NULL, ?, ?, ?)
-"""
-    cursor.execute(signupCommand, (authorID, authorName, authorStatus,))
-    conn.commit()
-    await ctx.send("Signed " + authorName + " up for the CDL!")
-
 # 'sudo' commands can only be run by the bot owner
 @bot.command()
 async def sudo(ctx, arg):
